@@ -37,6 +37,13 @@ export const TutorialModal: React.FC<TutorialModalProps> = ({ visible }) => {
   const insets = useSafeAreaInsets();
   const [step, setStep] = useState(0);
 
+  // Reset step to 0 when modal becomes visible
+  useEffect(() => {
+    if (visible) {
+      setStep(0);
+    }
+  }, [visible]);
+
   // For Step 1 (Flashing numbers)
   const [flashNum, setFlashNum] = useState<number | string>(14);
 

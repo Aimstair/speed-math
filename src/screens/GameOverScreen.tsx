@@ -80,7 +80,7 @@ export const GameOverScreen: React.FC<Props> = ({ route, navigation }) => {
               <Text style={styles.title}>OVER.</Text>
             </>
           )}
-          <Text style={styles.subtitle}>{mode.charAt(0).toUpperCase() + mode.slice(1)} \u00B7 {difficulty}</Text>
+          <Text style={styles.subtitle}>{mode.charAt(0).toUpperCase() + mode.slice(1)} {'\u00B7'} {difficulty}</Text>
 
           <View style={styles.separator} />
 

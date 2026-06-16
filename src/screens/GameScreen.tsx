@@ -349,7 +349,9 @@ export const GameScreen: React.FC<Props> = ({ route, navigation }) => {
               </TouchableOpacity>
               <Text style={styles.headerText}>{mode.toUpperCase()} · {difficulty}</Text>
             </View>
-            <Text style={styles.streakText}>STREAK: {consecutiveCorrect}</Text>
+            {mode !== 'compete' && (
+              <Text style={styles.streakText}>STREAK: {consecutiveCorrect}</Text>
+            )}
           </View>
 
 

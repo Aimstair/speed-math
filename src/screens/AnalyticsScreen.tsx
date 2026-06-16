@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -8,6 +8,7 @@ import { COLORS } from '../theme/colors';
 import { TYPOGRAPHY } from '../theme/typography';
 import { playClick } from '../utils/audio';
 import { ms, scaleY, isSmallDevice } from '../utils/scale';
+import { ResetConfirmationModal } from '../components/ResetConfirmationModal';
 
 const BACK_ARROW = '\u2190';
 
@@ -17,6 +18,16 @@ const DIFFICULTIES = ['Beginner', 'Intermediate', 'Expert', 'Olympiad'];
 
 export const AnalyticsScreen: React.FC<Props> = ({ navigation }) => {
   const { elo, highestDifficultyCleared, statsByDifficulty, roundsPlayed, recentRounds, resetStatistics, settings } = useStore();
+  const [resetModalVisible, setResetModalVisible] = useState(false);
+
+  const handleConfirmReset = () => {
+    setResetModalVisible(false);
+    resetStatistics();
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Splash' }],
+    });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -85,10 +96,16 @@ export const AnalyticsScreen: React.FC<Props> = ({ navigation }) => {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.resetButton} onPress={() => { playClick(settings.sfx); resetStatistics(); }}>
+        <TouchableOpacity style={styles.resetButton} onPress={() => { playClick(settings.sfx); setResetModalVisible(true); }}>
           <Text style={styles.resetText}>RESET ALL STATISTICS</Text>
         </TouchableOpacity>
       </ScrollView>
+
+      <ResetConfirmationModal
+        visible={resetModalVisible}
+        onCancel={() => setResetModalVisible(false)}
+        onConfirm={handleConfirmReset}
+      />
     </SafeAreaView>
   );
 };
